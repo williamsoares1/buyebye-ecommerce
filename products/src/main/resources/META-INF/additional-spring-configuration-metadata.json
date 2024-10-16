@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "aws.access.key",
+    "type": "java.lang.String",
+    "description": "A description for 'aws.access.key'"
+  },
+  {
+    "name": "aws.secret.key",
+    "type": "java.lang.String",
+    "description": "A description for 'aws.secret.key'"
+  },
+  {
+    "name": "aws.bucket.products.name",
+    "type": "java.lang.String",
+    "description": "A description for 'aws.bucket.products.name'"
+  }
+]}
