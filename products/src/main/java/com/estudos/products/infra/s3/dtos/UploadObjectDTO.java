@@ -5,6 +5,6 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.Builder;
 
 @Builder
-public record UploadObjectDTO(String name, Long id, MultipartFile file) {
+public record UploadObjectDTO(String id, MultipartFile file) {
 
 }

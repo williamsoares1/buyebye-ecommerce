@@ -27,7 +27,7 @@ public class S3ServiceImpl implements S3Service{
     public void uploadFile(UploadObjectDTO uploadObject) throws IOException {
         InputStream inputStream = uploadObject.file().getInputStream();
         ObjectMetadata metadata = new ObjectMetadata();
-        String fileName = "id" + uploadObject.id() + getFileType(uploadObject.file().getOriginalFilename());
+        String fileName = uploadObject.id() + getFileType(uploadObject.file().getOriginalFilename());
         
         metadata.setContentLength(inputStream.available());
         metadata.setContentType(uploadObject.file().getContentType());

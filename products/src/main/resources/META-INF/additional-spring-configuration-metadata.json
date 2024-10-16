@@ -13,5 +13,10 @@
     "name": "aws.bucket.products.name",
     "type": "java.lang.String",
     "description": "A description for 'aws.bucket.products.name'"
+  },
+  {
+    "name": "aws.cloudfront.url",
+    "type": "java.lang.String",
+    "description": "A description for 'aws.cloudfront.url'"
   }
 ]}
