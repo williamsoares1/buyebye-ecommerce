@@ -46,7 +46,9 @@ public class ProductService {
                 .map(p -> ProductDTO.builder()
                         .title(p.getTitle())
                         .description(p.getDescription())
-                        .price(p.getPrice())
+                        .originalPrice(p.getOriginalPrice())
+                        .currentPrice(p.getCurrentPrice())
+                        .discountApplied(p.isDiscountApplied())
                         .build())
                 .toList();
 
@@ -60,7 +62,9 @@ public class ProductService {
                 .map(p -> ProductDTO.builder()
                         .title(p.getTitle())
                         .description(p.getDescription())
-                        .price(p.getPrice())
+                        .originalPrice(p.getOriginalPrice())
+                        .currentPrice(p.getCurrentPrice())
+                        .discountApplied(p.isDiscountApplied())
                         .build())
                 .get();
 
@@ -95,7 +99,9 @@ public class ProductService {
                 .title(dto.title())
                 .description(dto.description())
                 .categories(new HashSet<Category>(categories))
-                .price(dto.price())
+                .currentPrice(dto.originalPrice())
+                .originalPrice(dto.originalPrice())
+                .discountApplied(false)
                 .imageUrl(cloudFrontUrl + "/" + productId + fileType)
                 .build();
 

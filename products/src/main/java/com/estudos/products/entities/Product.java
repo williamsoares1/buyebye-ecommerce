@@ -27,7 +27,9 @@ public class Product {
     private UUID productId;
     private String title;
     private String description;
-    private BigDecimal price;
+    private BigDecimal originalPrice;
+    private BigDecimal currentPrice;
+    private boolean discountApplied;
     private String imageUrl;
 
     @ManyToMany

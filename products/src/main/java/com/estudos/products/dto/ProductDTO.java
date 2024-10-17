@@ -6,6 +6,6 @@ import java.util.List;
 import lombok.Builder;
 
 @Builder
-public record ProductDTO(List<Long> categoriesIdList, String title, String description, BigDecimal price) {
+public record ProductDTO(List<Long> categoriesIdList, String title, String description, BigDecimal currentPrice, BigDecimal originalPrice, boolean discountApplied) {
 
 }
