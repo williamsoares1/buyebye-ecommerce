@@ -40,6 +40,12 @@ public class KafkaConfig {
                         .name("product_discount")
                         .partitions(1)
                         .config(TopicConfig.RETENTION_MS_CONFIG, String.valueOf(Duration.ofHours(2).toMillis()))
+                        .build(),
+
+                TopicBuilder
+                        .name("product_discount_expiration")
+                        .partitions(1)
+                        .config(TopicConfig.RETENTION_MS_CONFIG, String.valueOf(Duration.ofHours(2).toMillis()))
                         .build());
     };
 

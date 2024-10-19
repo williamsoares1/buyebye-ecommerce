@@ -30,7 +30,8 @@ public class DiscountService {
                 .discountType(dto.discountType())
                 .discountValue(dto.discountValue())
                 .startDate(LocalDateTime.now())
-                .endDate(LocalDateTime.now().plusDays(2))
+                .endDate(LocalDateTime.now().plusMinutes(2))
+                .notified(false)
                 .build();
 
         discountRepository.save(discount);
@@ -39,6 +40,7 @@ public class DiscountService {
                 .discountType(dto.discountType())
                 .discountValue(dto.discountValue())
                 .productId(dto.productId())
+                .endDate(LocalDateTime.now().plusMinutes(1))
                 .build();
 
         kafkaDiscountSender.applyDiscount(discountKDTO);

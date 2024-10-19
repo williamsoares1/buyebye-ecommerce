@@ -3,6 +3,7 @@ package com.estudos.products.infra.kafka.listener;
 import org.springframework.stereotype.Service;
 
 import com.estudos.products.entities.Product;
+import com.estudos.products.infra.kafka.ENUM.DISCOUNTTYPE;
 import com.estudos.products.infra.kafka.dto.DiscountKDTO;
 import com.estudos.products.repositories.ProductRepository;
 
@@ -31,15 +32,15 @@ public class ProductKafkaListener {
 
             product.setDiscountApplied(true);
 
-            if (dto.discountType().equals("percent"))
+            if (dto.discountType().equals(DISCOUNTTYPE.PERCENT))
                 product.setCurrentPrice(product.getOriginalPrice().subtract(
                         product.getOriginalPrice().multiply(dto.discountValue().divide(new BigDecimal(100)))));
 
-            if (dto.discountType().equals("absolute"))
+            if (dto.discountType().equals(DISCOUNTTYPE.ABSOLUTE))
                 product.setCurrentPrice(product.getOriginalPrice().subtract(dto.discountValue()));
 
             productRepository.save(product);
-            log.info("::::::::::::::::::::::::::::::::::::: Chegou, confira");
+            log.info("::::::::::::::::::::::::::::::::::::: Chegou, vê la");
         }
 
     }
