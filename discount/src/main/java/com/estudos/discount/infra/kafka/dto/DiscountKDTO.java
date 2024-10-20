@@ -11,6 +11,6 @@ import jakarta.persistence.Enumerated;
 import lombok.Builder;
 
 @Builder
-public record DiscountKDTO(String productId, BigDecimal discountValue, @Enumerated(EnumType.STRING) DISCOUNTTYPE discountType, LocalDateTime endDate) {
+public record DiscountKDTO(String discountId, String productId, BigDecimal discountValue, @Enumerated(EnumType.STRING) DISCOUNTTYPE discountType, LocalDateTime endDate) {
 
 }

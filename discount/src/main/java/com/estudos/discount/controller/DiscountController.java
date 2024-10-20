@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.estudos.discount.dto.DiscountDTO;
 import com.estudos.discount.service.DiscountService;
 
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class DiscountController {
     private DiscountService discountService;
 
     @PostMapping
-    public ResponseEntity<String> applyDiscount(@RequestBody DiscountDTO dto) {
+    public ResponseEntity<String> applyDiscount(@RequestBody DiscountDTO dto) throws SchedulerException {
         return ResponseEntity.of(discountService.applyDiscount(dto));
     }
 

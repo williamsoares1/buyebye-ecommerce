@@ -15,7 +15,11 @@ public class KafkaDiscountSender {
     private KafkaTemplate<String, DiscountKDTO> kafkaTemplate;
 
     public void applyDiscount(DiscountKDTO dto) {
-        kafkaTemplate.send("product_discount", dto);
+        kafkaTemplate.send("product_discount", dto.discountId(), dto);
+    }
+
+    public void notifyExpiratedDiscount(DiscountKDTO dto){
+        kafkaTemplate.send("product_discount_expiration", dto.discountId(), dto);
     }
 
 }

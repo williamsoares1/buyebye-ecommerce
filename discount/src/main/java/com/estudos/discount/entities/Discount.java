@@ -7,8 +7,6 @@ import java.util.UUID;
 import com.estudos.discount.entities.ENUM.DISCOUNTTYPE;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +23,6 @@ import lombok.Setter;
 public class Discount {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID discountId;
     private UUID productId;
     private BigDecimal discountValue;

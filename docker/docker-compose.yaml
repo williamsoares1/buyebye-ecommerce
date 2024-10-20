@@ -15,6 +15,16 @@ services:
     networks:
       - buyebye-ecommerce
 
+  redis:
+    image: redis:7.4
+    container_name: redis-server
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - buyebye-ecommerce
+
   zookeeper:
     container_name: zookeeper
     image: confluentinc/cp-zookeeper:latest
@@ -96,3 +106,4 @@ networks:
 
 volumes:
   postgres_data:
+  redis_data:

@@ -55,15 +55,10 @@ public class KafkaConfig {
         var configs = new HashMap<String, Object>();
 
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, properties.getBootstrapServers());
-
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-
         configs.put(ProducerConfig.ACKS_CONFIG, "1");
-
         configs.put(ProducerConfig.RETRIES_CONFIG, 2);
-
         return new DefaultKafkaProducerFactory(configs);
     }
 
