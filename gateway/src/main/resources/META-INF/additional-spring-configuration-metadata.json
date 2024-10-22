@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "spring.kafka.enabled",
+  "type": "java.lang.String",
+  "description": "A description for 'spring.kafka.enabled'"
+}]}

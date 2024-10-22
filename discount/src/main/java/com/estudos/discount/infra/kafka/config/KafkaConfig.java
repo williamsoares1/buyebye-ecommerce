@@ -1,19 +1,15 @@
 package com.estudos.discount.infra.kafka.config;
 
-import java.time.Duration;
 import java.util.HashMap;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.config.TopicConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
@@ -30,22 +26,6 @@ public class KafkaConfig {
     public KafkaTemplate<String, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producer());
     }
-
-    @Bean
-    public KafkaAdmin.NewTopics newTopics() {
-        return new KafkaAdmin.NewTopics(
-                TopicBuilder
-                        .name("product_discount")
-                        .partitions(1)
-                        .config(TopicConfig.RETENTION_MS_CONFIG, String.valueOf(Duration.ofHours(2).toMillis()))
-                        .build(),
-
-                TopicBuilder
-                        .name("product_discount_expiration")
-                        .partitions(1)
-                        .config(TopicConfig.RETENTION_MS_CONFIG, String.valueOf(Duration.ofHours(2).toMillis()))
-                        .build());
-    };
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Bean

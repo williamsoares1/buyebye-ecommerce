@@ -26,6 +26,7 @@ public class ProductKafkaListener {
 
     @KafkaListener(topics = "product_discount", groupId = "api-buyebye-products")
     public void listen(DiscountKDTO dto) {
+        log.info("::::::::::::::::::::::::::CONFIRA:::::::::::::::::::::::::");
         Optional<Product> productOpt = productRepository.findById(UUID.fromString(dto.productId()));
 
         if (productOpt.isPresent()) {
@@ -33,12 +34,20 @@ public class ProductKafkaListener {
 
             product.setDiscountApplied(true);
 
-            if (dto.discountType().equals(DISCOUNTTYPE.PERCENT))
+            if (dto.discountType().equals(DISCOUNTTYPE.PERCENT)){
                 product.setCurrentPrice(product.getOriginalPrice().subtract(
-                        product.getOriginalPrice().multiply(dto.discountValue().divide(new BigDecimal(100)))));
+                    product.getOriginalPrice().multiply(dto.discountValue().divide(new BigDecimal(100)))));
 
-            if (dto.discountType().equals(DISCOUNTTYPE.ABSOLUTE))
+                log.info("::::::::::::::::::::::::::CONFIRA:::::::::::::::::::::::::");
+            }
+
+                
+
+            if (dto.discountType().equals(DISCOUNTTYPE.ABSOLUTE)){
                 product.setCurrentPrice(product.getOriginalPrice().subtract(dto.discountValue()));
+
+                log.info("::::::::::::::::::::::::::CONFIRA:::::::::::::::::::::::::");
+            }
 
             productRepository.save(product);
         }
@@ -46,10 +55,10 @@ public class ProductKafkaListener {
     }
 
     @KafkaListener(topics = "product_discount_expiration", groupId = "api-buyebye-products")
-    public void discountExpirationListener(ExpiredDiscountKQDTO dto){
+    public void discountExpirationListener(ExpiredDiscountKQDTO dto) {
         Optional<Product> productOpt = productRepository.findById(UUID.fromString(dto.productId()));
 
-        if(productOpt.isPresent()){
+        if (productOpt.isPresent()) {
             Product product = productOpt.get();
 
             product.setCurrentPrice(product.getOriginalPrice());

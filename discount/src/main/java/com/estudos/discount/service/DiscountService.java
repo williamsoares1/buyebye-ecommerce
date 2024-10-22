@@ -64,12 +64,12 @@ public class DiscountService {
                 .discountType(dto.discountType())
                 .discountValue(dto.discountValue())
                 .startDate(LocalDateTime.now())
-                .endDate(LocalDateTime.now().plusMinutes(2))
+                .endDate(LocalDateTime.now().plusSeconds(5))
                 .build();
     }
 
     public ExpiredDiscountKQDTO buildKQDTO(DiscountDTO dto, String discountStringID) {
         return ExpiredDiscountKQDTO.builder().discountId(discountStringID)
-                .productId(dto.productId()).endDate(LocalDateTime.now().plusMinutes(2)).build();
+                .productId(dto.productId()).endDate(LocalDateTime.now().plusSeconds(5)).build();
     }
 }

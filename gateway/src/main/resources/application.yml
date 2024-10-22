@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST}:9092
+    enabled: true
+  cloud:
+    gateway:
+      routes:
+      - id: product-api
+        uri: http://localhost:8081
+        predicates:
+        - Path=/product/**
+      - id: category-api
+        uri: http://localhost:8081/category
+        predicates:
+        - Path=/category/**
+      - id: discount-api
+        uri: http://localhost:8082
+        predicates:
+        - Path=/discount/**
