@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.estudos.discount.dto.DiscountDTO;
 import com.estudos.discount.entities.Discount;
+import com.estudos.discount.infra.dto.ExpiredDiscountKQDTO;
 import com.estudos.discount.infra.kafka.dto.DiscountKDTO;
 import com.estudos.discount.infra.kafka.sender.KafkaDiscountSender;
 import com.estudos.discount.infra.quartz.service.QuartzService;
@@ -35,30 +36,40 @@ public class DiscountService {
         UUID discountUUID = UUID.randomUUID();
         String discountStringID = discountUUID.toString();
 
-        Discount discount = Discount.builder()
+        Discount discount = buildEntity(dto, discountUUID);
+        DiscountKDTO discountKDTO = buildKDTO(dto, discountStringID);
+        ExpiredDiscountKQDTO taskDiscountDTO = buildKQDTO(dto, discountStringID);
+
+        discountRepository.save(discount);
+        kafkaDiscountSender.applyDiscount(discountKDTO);
+        quartzService.scheduleExpiration(taskDiscountDTO);
+        redisTemplate.opsForValue().set("discount:" + discountStringID, taskDiscountDTO);
+
+        return Optional.of("foi");
+    }
+
+    public DiscountKDTO buildKDTO(DiscountDTO dto, String discountStringID) {
+        return DiscountKDTO.builder()
+                .discountId(discountStringID)
+                .discountType(dto.discountType())
+                .discountValue(dto.discountValue())
+                .productId(dto.productId())
+                .build();
+    }
+
+    public Discount buildEntity(DiscountDTO dto, UUID discountUUID) {
+        return Discount.builder()
                 .discountId(discountUUID)
                 .productId(UUID.fromString(dto.productId()))
                 .discountType(dto.discountType())
                 .discountValue(dto.discountValue())
                 .startDate(LocalDateTime.now())
                 .endDate(LocalDateTime.now().plusMinutes(2))
-                .notified(false)
                 .build();
+    }
 
-        discountRepository.save(discount);
-
-        DiscountKDTO discountKDTO = DiscountKDTO.builder()
-                .discountId(discountStringID)
-                .discountType(dto.discountType())
-                .discountValue(dto.discountValue())
-                .productId(dto.productId())
-                .endDate(LocalDateTime.now().plusSeconds(30))
-                .build();
-
-        kafkaDiscountSender.applyDiscount(discountKDTO);
-        quartzService.scheduleExpiration(discountKDTO);
-        redisTemplate.opsForValue().set("discount:" + discountStringID, discountKDTO);
-
-        return Optional.of("foi");
+    public ExpiredDiscountKQDTO buildKQDTO(DiscountDTO dto, String discountStringID) {
+        return ExpiredDiscountKQDTO.builder().discountId(discountStringID)
+                .productId(dto.productId()).endDate(LocalDateTime.now().plusMinutes(2)).build();
     }
 }

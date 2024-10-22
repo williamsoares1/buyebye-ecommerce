@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.estudos.products.entities.Product;
 import com.estudos.products.infra.kafka.ENUM.DISCOUNTTYPE;
 import com.estudos.products.infra.kafka.dto.DiscountKDTO;
+import com.estudos.products.infra.kafka.dto.ExpiredDiscountKQDTO;
 import com.estudos.products.repositories.ProductRepository;
 
 import lombok.extern.log4j.Log4j2;
@@ -40,8 +41,21 @@ public class ProductKafkaListener {
                 product.setCurrentPrice(product.getOriginalPrice().subtract(dto.discountValue()));
 
             productRepository.save(product);
-            log.info("::::::::::::::::::::::::::::::::::::: Chegou, vê la");
         }
 
+    }
+
+    @KafkaListener(topics = "product_discount_expiration", groupId = "api-buyebye-products")
+    public void discountExpirationListener(ExpiredDiscountKQDTO dto){
+        Optional<Product> productOpt = productRepository.findById(UUID.fromString(dto.productId()));
+
+        if(productOpt.isPresent()){
+            Product product = productOpt.get();
+
+            product.setCurrentPrice(product.getOriginalPrice());
+            product.setDiscountApplied(false);
+
+            productRepository.save(product);
+        }
     }
 }

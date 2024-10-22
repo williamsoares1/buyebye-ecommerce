@@ -1,4 +1,4 @@
-package com.estudos.discount.mapper;
+package com.estudos.discount.mapper.custom;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

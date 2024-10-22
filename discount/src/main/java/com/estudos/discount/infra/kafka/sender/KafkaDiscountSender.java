@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import com.estudos.discount.infra.dto.ExpiredDiscountKQDTO;
 import com.estudos.discount.infra.kafka.dto.DiscountKDTO;
 
 @Component
@@ -12,13 +13,13 @@ import com.estudos.discount.infra.kafka.dto.DiscountKDTO;
 public class KafkaDiscountSender {
 
     @Autowired
-    private KafkaTemplate<String, DiscountKDTO> kafkaTemplate;
+    private KafkaTemplate<String, Object> kafkaTemplate;
 
     public void applyDiscount(DiscountKDTO dto) {
         kafkaTemplate.send("product_discount", dto.discountId(), dto);
     }
 
-    public void notifyExpiratedDiscount(DiscountKDTO dto){
+    public void notifyExpiratedDiscount(ExpiredDiscountKQDTO dto) {
         kafkaTemplate.send("product_discount_expiration", dto.discountId(), dto);
     }
 

@@ -29,5 +29,4 @@ public class Discount {
     private DISCOUNTTYPE discountType;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private boolean notified;
 }

@@ -18,8 +18,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
-import com.estudos.discount.infra.kafka.dto.DiscountKDTO;
-
 @Configuration
 @ConditionalOnProperty(name = "kafka.enabled", havingValue = "true", matchIfMissing = true)
 public class KafkaConfig {
@@ -29,7 +27,7 @@ public class KafkaConfig {
 
     @SuppressWarnings("unchecked")
     @Bean
-    public KafkaTemplate<String, DiscountKDTO> kafkaTemplate() {
+    public KafkaTemplate<String, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producer());
     }
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import com.estudos.discount.infra.kafka.dto.DiscountKDTO;
+import com.estudos.discount.infra.dto.ExpiredDiscountKQDTO;
 import com.estudos.discount.infra.kafka.sender.KafkaDiscountSender;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,10 +28,9 @@ public class DiscountExpirationJob implements Job {
     @Override
     public void execute(JobExecutionContext context) {
         String discountId = context.getMergedJobDataMap().getString("discountId");
-        DiscountKDTO discountKDTO = objectMapper.convertValue(redisTemplate.opsForValue().get("discount:" + discountId), DiscountKDTO.class);
+        ExpiredDiscountKQDTO taskDiscountDTO = objectMapper.convertValue(redisTemplate.opsForValue().get("discount:" + discountId), ExpiredDiscountKQDTO.class);
 
-        kafkaDiscountSender.notifyExpiratedDiscount(discountKDTO);
-
+        kafkaDiscountSender.notifyExpiratedDiscount(taskDiscountDTO);
         redisTemplate.delete("discount:" + discountId);
     }
 }
